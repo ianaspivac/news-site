@@ -37,14 +37,10 @@ func New(
 ) News {
 	muxProvider := gin.New()
 	muxProvider.Use(cors.New(cors.Config{
-		AllowOrigins:  []string{"*"},
-		AllowMethods:  []string{"PUT", "PATCH", "POST", "GET"},
-		AllowHeaders:  []string{"*"},
-		ExposeHeaders: []string{"Content-Length"},
-		AllowOriginFunc: func(origin string) bool {
-			return true
-		},
-		MaxAge: 12 * time.Hour,
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"PUT", "PATCH", "POST", "GET"},
+		AllowHeaders: []string{"*"},
+		MaxAge:       12 * time.Hour,
 	}))
 	serv := &news{
 		mux:     muxProvider,
@@ -56,9 +52,9 @@ func New(
 	{
 		posts := v1.Group("/posts")
 		{
-			posts.GET("/", serv.GetAllPosts)                     // Get All posts (return just headline, summary and preview pic)
-			posts.GET("/:post_uuid", serv.GetPostByUUID)         // Get specific post (if post if protected - token required)
-			posts.POST("/", serv.basicRequired, serv.CreatePost) // Create a new post
+			posts.GET("/", serv.GetAllPosts)                      // Get All posts (return just headline, summary and preview pic)
+			posts.GET("/:post_uuid", serv.GetPostByUUID)          // Get specific post (if post if protected - token required)
+			posts.POST("/", serv.editorRequired, serv.CreatePost) // Create a new post
 			posts.PATCH("/:post_uuid", serv.editorRequired, serv.EditPost)
 		}
 		user := v1.Group("/user")

@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS post (
     creator_uuid VARCHAR(255) NOT NULL,
     headline VARCHAR(255) NOT NULL,
     summary VARCHAR(255) NOT NULL,
-    preview_img BLOB,
+    preview_img MEDIUMBLOB,
     content BLOB NOT NULL,
     is_protected BOOLEAN DEFAULT FALSE,
 

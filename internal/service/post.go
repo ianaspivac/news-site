@@ -1,7 +1,6 @@
 package service
 
 import (
-	"bytes"
 	"context"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/uuid"
@@ -43,7 +42,7 @@ func (p *service) UpdatePost(ctx context.Context, newPost models.Post) (*models.
 	if newPost.Content != "" && newPost.Content != post.Content {
 		post.Content = newPost.Content
 	}
-	if newPost.PreviewImage != nil && !bytes.Equal(newPost.PreviewImage, post.PreviewImage) {
+	if newPost.PreviewImage != "" && newPost.PreviewImage != post.PreviewImage {
 		post.PreviewImage = newPost.PreviewImage
 	}
 

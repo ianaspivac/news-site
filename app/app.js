@@ -5,18 +5,20 @@ async function App() {
   const BASE_URL = "http://localhost:8080";
 
   let cardList = [];
-  let user = {
-    role: "",
-    id: "",
-  };
+
   let accountFlag = false;
 
   const getNews = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/v1/posts`);
+      const response = await axios.get(`${BASE_URL}/v1/posts/`);
 
       cardList = response.data;
-      console.log(cardList);
+      if (
+        !localStorage.getItem("token") ||
+        localStorage.getItem("token") === undefined
+      ) {
+        cardList = cardList.filter((post) => !post.is_protected);
+      }
       document
         .getElementById("post-list")
         .insertAdjacentHTML("beforeend", listTemplate());
@@ -34,12 +36,10 @@ async function App() {
         password,
       });
 
-      const posts = response.data;
-
-      console.log(posts);
-
-      document.getElementById("form-login").remove();
-      document.getElementById("account").value = "Logout";
+      const user = response.data;
+      if (user.role) localStorage.setItem("role", user.role);
+      localStorage.setItem("token", user.token);
+      window.location.reload(true);
     } catch (errors) {
       document
         .getElementById("form-footer")
@@ -51,7 +51,6 @@ async function App() {
   const register = async () => {
     let mail = document.getElementById("email").value;
     let password = document.getElementById("password").value;
-    console.log(mail);
     try {
       const response = await axios.post(`${BASE_URL}/v1/user/register`, {
         mail,
@@ -62,11 +61,23 @@ async function App() {
 
       document.getElementById("form-register").remove();
       document.getElementById("account").value = "Logout";
-      localStorage.setItem("id", user.UUID);
+
       if (user.role) localStorage.setItem("role", user.role);
 
-      if (user.role === "EDITOR") {
-        addPostButton();
+      try {
+        const response = await axios.post(`${BASE_URL}/v1/user/login`, {
+          mail,
+          password,
+        });
+
+        const user = response.data;
+
+        localStorage.setItem("token", user.token);
+
+        window.location.reload(true);
+      } catch (errors) {
+        document;
+        console.error(errors);
       }
     } catch (error) {
       document
@@ -100,12 +111,6 @@ async function App() {
     return cardList.map((card, index) => postCard({ card, index })).join("");
   };
 
-  const checkUserRole = () => {
-    if (!props.is_private || (props.is_private && "user not anonymous"))
-      return true;
-    return false;
-  };
-
   const showContent = (contentId, id) => {
     let container = createEl("div", `container-${contentId}`);
     let p = createEl("p", contentId);
@@ -129,7 +134,7 @@ async function App() {
     if (!document.getElementById(contentId)) {
       showContent(contentId, id);
       document.getElementById(`toggle-${id}`).value = "See less";
-      if (user.role === "EDITOR") addEditButton(id);
+      if (localStorage.getItem("role") === "EDITOR") addEditButton(id);
     } else {
       document.getElementById(`container-${contentId}`).remove();
       document.getElementById(`edit-container-${id}`).remove();
@@ -137,16 +142,27 @@ async function App() {
     }
   };
 
-  const saveForm = (id) => {
-    // send to back, on success do next:
-    document.getElementById(`headline-${id}`).innerText =
-      document.getElementById(`new-headline-${id}`).value;
-    document.getElementById(`summary-${id}`).innerText =
-      document.getElementById(`new-summary-${id}`).value;
-    document.getElementById(`content-${id}`).innerText =
-      document.getElementById(`new-content-${id}`).value;
-
-    document.getElementById(`form-container-${id}`).remove();
+  const saveForm = async (id) => {
+    try {
+      const response = await axios.patch(
+        `${BASE_URL}/v1/posts/${cardList[id].uuid}`,
+        {
+          headline: document.getElementById(`new-headline-${id}`).value,
+          summary: document.getElementById(`new-summary-${id}`).value,
+          content: document.getElementById(`new-content-${id}`).value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+      window.location.reload(true);
+    } catch (errors) {
+      console.error(errors);
+    }
   };
 
   const createPost = async () => {
@@ -168,51 +184,43 @@ async function App() {
         summary: document.getElementById(`new-summary-${id}`).value,
         content: document.getElementById(`new-content-${id}`).value,
         preview_img: img,
-        is_private: isPrivate
+        is_protected: isPrivate,
       },
     };
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/v1/posts`,
+        `${BASE_URL}/v1/posts/`,
         {
           headline: props.card.headline,
           summary: props.card.summary,
           content: props.card.content,
           preview_img: props.card.preview_img,
+          is_protected: props.card.is_protected,
         },
         {
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("id")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
           },
         }
       );
 
-      const posts = response.data;
-
-      console.log(posts);
-
-      document.getElementById("form-login").remove();
-      document.getElementById("account").value = "Logout";
+      window.location.reload(true);
     } catch (errors) {
       console.error(errors);
     }
-
-    cardList.push(props.card);
-
-    document
-      .getElementById("post-list")
-      .insertAdjacentHTML("beforeend", postCard(props));
-    document.getElementById(`form-container-${id}`).remove();
-    document
-      .getElementById("container")
-      .insertAdjacentHTML("afterBegin", newPostButton());
-    postsNr += 1;
   };
 
   const postCard = (props) => {
+    let img = "";
+    if (props.card.preview_img !== "" && props.card.preview_img !== null && props.card.preview_img) {
+      img = `
+      <div>
+      <img src="${props.card.preview_img}" />
+    </div>`;
+    }
     return `
   <div class="post-card" id="card-${props.index}">
     <div>
@@ -226,9 +234,7 @@ async function App() {
         <input type="button" id="toggle-${props.index}" value="See more" />
       </div>
     </div>
-    <div>
-      <img src="${props.card.preview_img}" />
-    </div>
+    ${img}
   </div>
 `;
   };
@@ -377,9 +383,10 @@ async function App() {
   const manageAccount = () => {
     if (
       document.getElementById("account").value === "Logout" &&
-      localStorage.getItem("id")
+      localStorage.getItem("token")
     ) {
       localStorage.clear();
+      window.location.reload(true);
       if (!!document.getElementById("form-login"))
         document.getElementById("form-login").remove();
       if (!!document.getElementById("form-register"))
@@ -396,15 +403,16 @@ async function App() {
     }
   };
 
-  document.addEventListener("DOMContentLoaded", function () {
+  window.addEventListener("load", (event) => {
+    if (localStorage.getItem("role") === "EDITOR") addPostButton();
     if (
-      localStorage.getItem("roles") != "EDITOR" ||
-      localStorage.getItem("roles") === null
+      localStorage.getItem("role") != "EDITOR" ||
+      localStorage.getItem("role") === null
     ) {
       document.getElementById("new-post").remove();
     }
     getNews();
-    if (localStorage.getItem("id")) {
+    if (localStorage.getItem("token")) {
       document.getElementById("account").value = "Logout";
     } else {
       document.getElementById("account").value = "Account";
