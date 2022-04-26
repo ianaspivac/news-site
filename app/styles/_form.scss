@@ -1,0 +1,93 @@
+button,
+input[type="button"],
+input[type="submit"] {
+  background-color: transparent;
+  border: none;
+  color: rgb(139, 142, 145);
+  font-family: inherit;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  &.save,
+  &.new-post {
+    border-radius: 5px;
+    border: 1px solid rgb(7, 41, 144);
+    color: rgb(7, 41, 144);
+    padding: 10px 15px;
+    &:hover {
+      text-decoration: none;
+      background-color: rgba(11, 58, 200, 0.104);
+    }
+  }
+  &.undo {
+    border-radius: 5px;
+    border: 1px solid rgb(139, 142, 145);
+    color: rgb(139, 142, 145);
+    padding: 10px 15px;
+    &:hover {
+      text-decoration: none;
+      background-color: rgba(148, 151, 154, 0.122);
+    }
+  }
+}
+
+input {
+  &[type="text"],
+  &[type="password"],
+  &[type="email"] {
+    border-radius: 5px;
+    border: 1px solid rgb(146, 161, 175);
+    padding: 10px;
+    width: 100%;
+    margin: 5px 0;
+    font-family: inherit;
+    &:focus {
+      border-color: rgb(86, 114, 124);
+    }
+  }
+}
+
+.new-post-form,
+form,
+.form-input,
+.form-container {
+  width: 100%;
+}
+
+#private-label {
+  font-size: 14px;
+}
+
+.private-container {
+  margin: 10px 0;
+}
+
+.form-register {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  h2 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: rgb(7, 41, 144);
+  }
+  .form-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    input {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}

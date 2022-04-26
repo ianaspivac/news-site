@@ -1,0 +1,365 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+.post-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: #333;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 15px 20px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.post-card img {
+  width: 100%;
+  max-height: 300px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.post-card h2 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.post-card .post-card-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 13px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.post-card .post-card-date p {
+  color: #b8b8b8;
+  text-align: right;
+}
+
+.post-list {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+  background-color: transparent;
+  border: none;
+  color: #8b8e91;
+  font-family: inherit;
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+button.save, button.new-post,
+input[type="button"].save,
+input[type="button"].new-post,
+input[type="submit"].save,
+input[type="submit"].new-post {
+  border-radius: 5px;
+  border: 1px solid #072990;
+  color: #072990;
+  padding: 10px 15px;
+}
+
+button.save:hover, button.new-post:hover,
+input[type="button"].save:hover,
+input[type="button"].new-post:hover,
+input[type="submit"].save:hover,
+input[type="submit"].new-post:hover {
+  text-decoration: none;
+  background-color: rgba(11, 58, 200, 0.104);
+}
+
+button.undo,
+input[type="button"].undo,
+input[type="submit"].undo {
+  border-radius: 5px;
+  border: 1px solid #8b8e91;
+  color: #8b8e91;
+  padding: 10px 15px;
+}
+
+button.undo:hover,
+input[type="button"].undo:hover,
+input[type="submit"].undo:hover {
+  text-decoration: none;
+  background-color: rgba(148, 151, 154, 0.122);
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  border-radius: 5px;
+  border: 1px solid #92a1af;
+  padding: 10px;
+  width: 100%;
+  margin: 5px 0;
+  font-family: inherit;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+  border-color: #56727c;
+}
+
+.new-post-form,
+form,
+.form-input,
+.form-container {
+  width: 100%;
+}
+
+#private-label {
+  font-size: 14px;
+}
+
+.private-container {
+  margin: 10px 0;
+}
+
+.form-register {
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+}
+
+.form-register h2 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #072990;
+}
+
+.form-register .form-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 10px;
+}
+
+.form-register .form-footer input {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #f7f9ff;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  overflow: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  border-bottom: 5px #fff solid;
+}
+
+.container {
+  padding: 0 20px;
+  width: 100%;
+}
+/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,51 @@
+@import "card";
+@import "list";
+@import "reset";
+@import "form";
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+$primary-color: #f7f9ff;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    background: $primary-color;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-bottom: 5px #fff solid;
+}
+
+.container {
+    padding: 0 20px;
+    width: 100%;
+}
